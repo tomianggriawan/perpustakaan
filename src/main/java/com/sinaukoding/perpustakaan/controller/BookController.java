@@ -7,6 +7,7 @@ import com.sinaukoding.perpustakaan.common.StatusCode;
 import com.sinaukoding.perpustakaan.entity.Book;
 import com.sinaukoding.perpustakaan.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class BookController extends BaseController {
     @Autowired
     private BookService service;
 
+    // @PreAuthorize("permitAll()")
     @GetMapping
     public RestResult get(@RequestParam(value = "param", required = false) String param,
                           @RequestParam(value = "offset") int offset,
@@ -30,6 +32,7 @@ public class BookController extends BaseController {
         return new RestResult(rows > 0 ? service.find(book, offset, limit) : new ArrayList<>());
     }
 
+    @PreAuthorize("permitAll()")
     @PostMapping
     public RestResult save(@RequestBody Book param){
         param = service.save(param);
